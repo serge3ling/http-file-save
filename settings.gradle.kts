@@ -1,2 +1,1 @@
-rootProject.name = 'httpfs'
-
+rootProject.name = "httpfs"

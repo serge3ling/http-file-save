@@ -1,0 +1,15 @@
+server:
+  port: 8090
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost/files
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+      enabled: true
+
+http-file-save:
+  grid-fs-size-start: 11534336
