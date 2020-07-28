@@ -99,6 +99,14 @@ public class StoreController {
     return ResponseEntity.ok().body("{\"ok\":\"OK.\"}");
   }
 
+  @PostMapping(path = "/files/remove",
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  public ResponseEntity<String> deleteFileFromPost(@RequestParam("id") ObjectId id) {
+    fileService.deleteById(id);
+    return ResponseEntity.ok().body("{\"ok\":\"OK.\"}");
+  }
+
   @ExceptionHandler(FileServiceException.class)
   public ResponseEntity<Void> handleStorageException(FileServiceException exc) {
     return ResponseEntity.notFound().build();

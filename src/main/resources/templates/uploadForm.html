@@ -7,7 +7,7 @@
 </div>
 
 <div>
-  <form method="POST" enctype="multipart/form-data" action="/">
+  <form method="post" enctype="multipart/form-data" action="/">
     <table>
       <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
       <tr><td>Description:</td><td><input type="text" name="description" /></td></tr>
@@ -26,6 +26,12 @@
          th:text="${doc.name}"></a>
     </td>
     <td th:text="${doc.description}"></td>
+    <td>
+      <form th:action="@{/files/remove/{id}(id=${doc.id})}" method="post">
+        <!--<input type="text" name="id" th:field="${doc.id}">-->
+        <input type="submit" value="Del" />
+      </form>
+    </td>
   </tr>
 </tbody>
 </table>
