@@ -12,4 +12,7 @@ spring:
       enabled: true
 
 http-file-save:
+  allowed-origins:
+    - http://localhost:8090
+    - chrome-extension://aejoelaoggembcahagimdiliamlcdmfm # Talend REST API Client
   grid-fs-size-start: 11534336
