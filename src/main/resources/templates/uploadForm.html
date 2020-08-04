@@ -27,8 +27,8 @@
     </td>
     <td th:text="${doc.description}"></td>
     <td>
-      <form th:action="@{/files/remove/{id}(id=${doc.id})}" method="post">
-        <!--<input type="text" name="id" th:field="${doc.id}">-->
+      <form th:action="@{/files/remove}" method="post">
+        <input type="hidden" name="id" th:value="${doc.id}" />
         <input type="submit" value="Del" />
       </form>
     </td>

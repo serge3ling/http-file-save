@@ -99,12 +99,13 @@ public class StoreController {
     return ResponseEntity.ok().body("{\"ok\":\"OK.\"}");
   }
 
-  @PostMapping(path = "/files/remove",
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseBody
-  public ResponseEntity<String> deleteFileFromPost(@RequestParam("id") ObjectId id) {
+  @PostMapping(path = "/files/remove")
+  public String deleteFileFromPost(@RequestParam("id") ObjectId id, RedirectAttributes redirectAttributes) {
     fileService.deleteById(id);
-    return ResponseEntity.ok().body("{\"ok\":\"OK.\"}");
+    redirectAttributes.addFlashAttribute(
+        "message", "You successfully removed file by id \"" + id + "\".");
+
+    return "redirect:/";
   }
 
   @ExceptionHandler(FileServiceException.class)
