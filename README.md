@@ -1,7 +1,7 @@
 # http-file-save
 
 This Spring Boot application manages saving files in a database.
-It handles HTTP requests for that, such as PUT, GET and DELETE.
+It handles HTTP requests for that, such as POST, GET and DELETE.
 
 The controller of the application provides
 2 groups of methods
