@@ -5,7 +5,6 @@ import tk.d4097.httpfs.model.FileModel;
 import tk.d4097.httpfs.repository.FileRepository;
 import tk.d4097.httpfs.service.mongo.FileDeleteBson;
 import tk.d4097.httpfs.service.mongo.FileDeleteGridFs;
-import tk.d4097.httpfs.service.mongo.FileDownloadWrap;
 import tk.d4097.httpfs.service.mongo.FileFindBson;
 import tk.d4097.httpfs.service.mongo.FileFindGridFs;
 import tk.d4097.httpfs.service.mongo.FileSaveBson;

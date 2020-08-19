@@ -3,7 +3,7 @@ package tk.d4097.httpfs.controller;
 import tk.d4097.httpfs.model.FileModel;
 import tk.d4097.httpfs.service.FileService;
 import tk.d4097.httpfs.service.FileServiceException;
-import tk.d4097.httpfs.service.mongo.FileDownloadWrap;
+import tk.d4097.httpfs.service.FileDownloadWrap;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;

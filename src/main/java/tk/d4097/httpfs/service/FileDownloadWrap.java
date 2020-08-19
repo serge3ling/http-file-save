@@ -1,4 +1,4 @@
-package tk.d4097.httpfs.service.mongo;
+package tk.d4097.httpfs.service;
 
 import lombok.Getter;
 import org.springframework.core.io.Resource;

@@ -1,7 +1,7 @@
 package tk.d4097.httpfs.service;
 
 import tk.d4097.httpfs.model.FileModel;
-import tk.d4097.httpfs.service.mongo.FileDownloadWrap;
+
 import java.util.List;
 import java.util.Optional;
 import org.bson.types.ObjectId;
