@@ -5,7 +5,6 @@ import tk.d4097.httpfs.service.FileService;
 import tk.d4097.httpfs.service.FileServiceException;
 import tk.d4097.httpfs.service.FileDownloadWrap;
 import java.util.List;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +46,7 @@ public class StoreController {
   @GetMapping(path = "/files/download/{id}",
       produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   @ResponseBody
-  public ResponseEntity<Resource> downloadFileById(@PathVariable ObjectId id) {
+  public ResponseEntity<Resource> downloadFileById(@PathVariable String id) {
     FileDownloadWrap wrap = fileService.getDownloadWrap(id);
     return ResponseEntity.ok()
         .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -58,7 +57,7 @@ public class StoreController {
   @GetMapping(path = "/files/{id}",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<FileModel> findFileById(@PathVariable ObjectId id) {
+  public ResponseEntity<FileModel> findFileById(@PathVariable String id) {
     return ResponseEntity.ok().body(fileService.findById(id).orElse(null));
   }
 
@@ -75,7 +74,7 @@ public class StoreController {
   @PostMapping(path = "/files",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ObjectId> insertFile(
+  public ResponseEntity<String> insertFile(
       @RequestParam("description") String description,
       @RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok().body(fileService.insert(description, file));
@@ -84,8 +83,8 @@ public class StoreController {
   @PutMapping(path = "/files/{id}",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<ObjectId> saveFile(
-      @PathVariable ObjectId id,
+  public ResponseEntity<String> saveFile(
+      @PathVariable String id,
       @RequestParam("description") String description,
       @RequestParam("file") MultipartFile file) {
     return ResponseEntity.ok().body(fileService.save(id, description, file));
@@ -94,13 +93,13 @@ public class StoreController {
   @DeleteMapping(path = "/files/{id}",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<String> deleteFile(@PathVariable ObjectId id) {
+  public ResponseEntity<String> deleteFile(@PathVariable String id) {
     fileService.deleteById(id);
     return ResponseEntity.ok().body("{\"ok\":\"OK.\"}");
   }
 
   @PostMapping(path = "/files/remove")
-  public String deleteFileFromPost(@RequestParam("id") ObjectId id, RedirectAttributes redirectAttributes) {
+  public String deleteFileFromPost(@RequestParam("id") String id, RedirectAttributes redirectAttributes) {
     fileService.deleteById(id);
     redirectAttributes.addFlashAttribute(
         "message", "You successfully removed file by id \"" + id + "\".");

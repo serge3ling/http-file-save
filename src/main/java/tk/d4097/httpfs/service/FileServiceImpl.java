@@ -63,15 +63,15 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public ObjectId insert(String description, MultipartFile file) {
-    ObjectId retVal = null;
+  public String insert(String description, MultipartFile file) {
+    String retVal = null;
     try {
       if (file.getSize() < properties.getGridFsSizeStart()) {
         FileModel fileModel = new FileModel(new ObjectId(), description, file);
         fileRepository.insert(fileModel);
-        retVal = fileModel.getId();
+        retVal = fileModel.getId().toString();
       } else {
-        retVal = fileSaveGridFs.save(description, file);
+        retVal = fileSaveGridFs.save(description, file).toString();
       }
     } catch (IOException e) {
       throw new FileServiceException("Failed to store file " + file.getOriginalFilename(), e);
@@ -80,14 +80,15 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public ObjectId save(ObjectId id, String description, MultipartFile file) {
-    ObjectId retVal = null;
+  public String save(String id, String description, MultipartFile file) {
+    ObjectId argObjectId  = new ObjectId(id);
+    String retVal = null;
     if (file.getSize() < properties.getGridFsSizeStart()) {
-      fileDeleteGridFs.delete(id);
-      retVal = fileSaveBson.save(id, description, file);
+      fileDeleteGridFs.delete(argObjectId);
+      retVal = fileSaveBson.save(argObjectId, description, file).toString();
     } else {
-      fileDeleteBson.delete(id);
-      retVal = fileSaveGridFs.save(description, file); // id != retVal
+      fileDeleteBson.delete(argObjectId);
+      retVal = fileSaveGridFs.save(description, file).toString(); // id != retVal
     }
     return retVal;
   }
@@ -121,24 +122,25 @@ public class FileServiceImpl implements FileService {
   }
 
   @Override
-  public Optional<FileModel> findById(ObjectId id) {
-    Optional<FileModel> opt = fileFindBson.find(id);
+  public Optional<FileModel> findById(String id) {
+    ObjectId objectId = new ObjectId(id);
+    Optional<FileModel> opt = fileFindBson.find(objectId);
 
     if (!opt.isPresent()) {
-      opt = fileFindGridFs.find(id);
+      opt = fileFindGridFs.find(objectId);
     }
 
     return opt;
   }
 
   @Override
-  public void deleteById(ObjectId id) {
-    fileDeleteBson.delete(id);
-    fileDeleteGridFs.delete(id);
+  public void deleteById(String id) {
+    fileDeleteBson.delete(new ObjectId(id));
+    fileDeleteGridFs.delete(new ObjectId(id));
   }
 
   @Override
-  public FileDownloadWrap getDownloadWrap(ObjectId id) {
+  public FileDownloadWrap getDownloadWrap(String id) {
     GridFSFile file = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
     Optional<FileModel> opt = findById(id);
     String name = "unknown.file";

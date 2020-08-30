@@ -14,18 +14,14 @@ public class Cors implements WebMvcConfigurer {
     this.properties = properties;
   }
 
-  private String[] originsForConfigurer() {
-    return properties.getAllowedOrigins().toArray(new String[0]);
-  }
-
   @NonNull
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        //String[] origins = properties.getAllowedOrigins().toArray(new String[] {});
-        registry.addMapping("/**").allowedOrigins(originsForConfigurer());
+        String[] origins = properties.getAllowedOrigins().toArray(new String[] {});
+        registry.addMapping("/**").allowedOrigins(origins);
       }
     };
   }
