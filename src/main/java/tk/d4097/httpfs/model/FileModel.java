@@ -39,6 +39,17 @@ public class FileModel {
         new Binary(BsonBinarySubType.BINARY, file.getBytes()));
   }
 
+  public FileModel(ObjectId id, GridFSFile file) {
+    this(
+        id,
+        file.getFilename(),
+        fetchMetadataString(file, "_contentType", "application/octet-stream"),
+        new FileExt(file.getFilename()).get(),
+        file.getLength(),
+        fetchMetadataString(file, "description", file.getFilename()),
+        null);
+  }
+
   public FileModel(ObjectId id, String name, String contentType, String extension,
                    long size, String description, Binary content) {
     this.id = id;
@@ -56,17 +67,6 @@ public class FileModel {
       string = file.getMetadata().getString(key);
     }
     return string;
-  }
-
-  public FileModel(ObjectId id, GridFSFile file) {
-    this(
-        id,
-        file.getFilename(),
-        fetchMetadataString(file, "_contentType", "application/octet-stream"),
-        new FileExt(file.getFilename()).get(),
-        file.getLength(),
-        fetchMetadataString(file, "description", file.getFilename()),
-        null);
   }
 
   @Override
