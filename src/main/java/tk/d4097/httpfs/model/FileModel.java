@@ -5,10 +5,6 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import tk.d4097.httpfs.service.FileExt;
 import java.io.IOException;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.bson.types.ObjectId;
@@ -17,13 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.web.multipart.MultipartFile;
 
 @Document(collection = "file")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class FileModel {
   @JsonSerialize(using = ToStringSerializer.class)
-  @EqualsAndHashCode.Include
   @Id
   private ObjectId id;
 
@@ -34,6 +25,9 @@ public class FileModel {
   private String description;
   private Binary content;
 
+  public FileModel() {
+  }
+
   public FileModel(ObjectId id, String description, MultipartFile file) throws IOException {
     this(
         id,
@@ -43,6 +37,17 @@ public class FileModel {
         file.getSize(),
         description,
         new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+  }
+
+  public FileModel(ObjectId id, String name, String contentType, String extension,
+                   long size, String description, Binary content) {
+    this.id = id;
+    this.name = name;
+    this.contentType = contentType;
+    this.extension = extension;
+    this.size = size;
+    this.description = description;
+    this.content = content;
   }
 
   private static String fetchMetadataString(GridFSFile file, String key, String valueDefault) {
@@ -65,7 +70,40 @@ public class FileModel {
   }
 
   @Override
+  public int hashCode() {
+    return id.hashCode();
+  }
+
+  @Override
   public String toString() {
     return "[id: " + id + ", name: \"" + name + "\", description: \"" + description + "\"]";
+  }
+
+  public ObjectId getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getContentType() {
+    return contentType;
+  }
+
+  public String getExtension() {
+    return extension;
+  }
+
+  public long getSize() {
+    return size;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public Binary getContent() {
+    return content;
   }
 }

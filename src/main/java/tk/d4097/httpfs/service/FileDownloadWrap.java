@@ -1,9 +1,7 @@
 package tk.d4097.httpfs.service;
 
-import lombok.Getter;
 import org.springframework.core.io.Resource;
 
-@Getter
 public class FileDownloadWrap {
   private final String name;
   private final Resource resource;
@@ -11,5 +9,13 @@ public class FileDownloadWrap {
   public FileDownloadWrap(String name, Resource resource) {
     this.name = name;
     this.resource = resource;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public Resource getResource() {
+    return resource;
   }
 }

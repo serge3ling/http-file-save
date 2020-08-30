@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tk.d4097.httpfs"
-version = "0.2-SNAPSHOT"
+version = "0.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -16,10 +16,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    //testImplementation("junit", "junit", "4.12")
     testImplementation("org.junit.jupiter", "junit-jupiter", "5.6.2")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
 }
 
 configure<JavaPluginConvention> {
