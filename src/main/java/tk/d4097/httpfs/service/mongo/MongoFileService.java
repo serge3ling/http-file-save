@@ -1,14 +1,11 @@
-package tk.d4097.httpfs.service;
+package tk.d4097.httpfs.service.mongo;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
 import tk.d4097.httpfs.model.FileModel;
 import tk.d4097.httpfs.repository.FileRepository;
-import tk.d4097.httpfs.service.mongo.FileDeleteBson;
-import tk.d4097.httpfs.service.mongo.FileDeleteGridFs;
-import tk.d4097.httpfs.service.mongo.FileFindBson;
-import tk.d4097.httpfs.service.mongo.FileFindGridFs;
-import tk.d4097.httpfs.service.mongo.FileSaveBson;
-import tk.d4097.httpfs.service.mongo.FileSaveGridFs;
+import tk.d4097.httpfs.service.FileDownloadWrap;
+import tk.d4097.httpfs.service.FileService;
+import tk.d4097.httpfs.service.FileServiceException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class MongoFileService implements FileService {
   @NonNull private final FileRepository fileRepository;
 
   @NonNull private final GridFsTemplate gridFsTemplate;
@@ -45,7 +42,7 @@ public class FileServiceImpl implements FileService {
   private final FileSaveGridFs fileSaveGridFs;
 
   @Autowired
-  public FileServiceImpl(
+  public MongoFileService(
       FileRepository fileRepository,
       GridFsTemplate gridFsTemplate,
       GridFsOperations gridFsOperations,
