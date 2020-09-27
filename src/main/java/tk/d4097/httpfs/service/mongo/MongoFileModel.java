@@ -1,4 +1,4 @@
-package tk.d4097.httpfs.model;
+package tk.d4097.httpfs.service.mongo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -11,9 +11,10 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.web.multipart.MultipartFile;
+import tk.d4097.httpfs.service.FileModel;
 
 @Document(collection = "file")
-public class FileModel {
+public class MongoFileModel implements FileModel {
   @JsonSerialize(using = ToStringSerializer.class)
   @Id
   private ObjectId id;
@@ -25,10 +26,10 @@ public class FileModel {
   private String description;
   private Binary content;
 
-  public FileModel() {
+  public MongoFileModel() {
   }
 
-  public FileModel(ObjectId id, String description, MultipartFile file) throws IOException {
+  public MongoFileModel(ObjectId id, String description, MultipartFile file) throws IOException {
     this(
         id,
         file.getOriginalFilename(),
@@ -39,7 +40,7 @@ public class FileModel {
         new Binary(BsonBinarySubType.BINARY, file.getBytes()));
   }
 
-  public FileModel(ObjectId id, GridFSFile file) {
+  public MongoFileModel(ObjectId id, GridFSFile file) {
     this(
         id,
         file.getFilename(),
@@ -50,8 +51,8 @@ public class FileModel {
         null);
   }
 
-  public FileModel(ObjectId id, String name, String contentType, String extension,
-                   long size, String description, Binary content) {
+  public MongoFileModel(ObjectId id, String name, String contentType, String extension,
+                        long size, String description, Binary content) {
     this.id = id;
     this.name = name;
     this.contentType = contentType;

@@ -1,6 +1,6 @@
 package tk.d4097.httpfs.controller;
 
-import tk.d4097.httpfs.model.FileModel;
+import tk.d4097.httpfs.service.FileModel;
 import tk.d4097.httpfs.service.FileService;
 import tk.d4097.httpfs.service.FileServiceException;
 import tk.d4097.httpfs.service.FileDownloadWrap;
@@ -58,13 +58,13 @@ public class StoreController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<FileModel> findFileById(@PathVariable String id) {
-    return ResponseEntity.ok().body(fileService.findById(id).orElse(null));
+    return ResponseEntity.ok().body((FileModel) fileService.findById(id).orElse(null));
   }
 
   @GetMapping(path = "/files",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<List<FileModel>> findFilesByQuery(
+  public ResponseEntity<List> findFilesByQuery(
       @RequestParam(defaultValue = "") String name,
       @RequestParam(defaultValue = "") String contentType,
       @RequestParam(defaultValue = "") String extension) {

@@ -1,7 +1,7 @@
 package tk.d4097.httpfs.service.mongo;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import tk.d4097.httpfs.model.FileModel;
+
 import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -15,8 +15,8 @@ public class FileFindGridFs {
     this.gridFsTemplate = gridFsTemplate;
   }
 
-  public Optional<FileModel> find(ObjectId id) {
+  public Optional<MongoFileModel> find(ObjectId id) {
     GridFSFile file = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
-    return Optional.ofNullable(new FileModel(id, file));
+    return Optional.ofNullable(new MongoFileModel(id, file));
   }
 }

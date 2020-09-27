@@ -1,8 +1,6 @@
 package tk.d4097.httpfs.service.mongo;
 
 import com.mongodb.client.gridfs.model.GridFSFile;
-import tk.d4097.httpfs.model.FileModel;
-import tk.d4097.httpfs.repository.FileRepository;
 import tk.d4097.httpfs.service.FileDownloadWrap;
 import tk.d4097.httpfs.service.FileService;
 import tk.d4097.httpfs.service.FileServiceException;
@@ -64,7 +62,7 @@ public class MongoFileService implements FileService {
     String retVal = null;
     try {
       if (file.getSize() < properties.getGridFsSizeStart()) {
-        FileModel fileModel = new FileModel(new ObjectId(), description, file);
+        MongoFileModel fileModel = new MongoFileModel(new ObjectId(), description, file);
         fileRepository.insert(fileModel);
         retVal = fileModel.getId().toString();
       } else {
@@ -90,38 +88,38 @@ public class MongoFileService implements FileService {
     return retVal;
   }
 
-  private List<FileModel> findInGridFs(Query query) {
+  private List<MongoFileModel> findInGridFs(Query query) {
     List<GridFSFile> files = new ArrayList<>();
     gridFsTemplate.find(query).into(files);
     return files.stream()
-        .map(item -> new FileModel(item.getObjectId(), item))
+        .map(item -> new MongoFileModel(item.getObjectId(), item))
         .collect(Collectors.toList());
   }
 
   @Override
-  public List<FileModel> findAll() {
-    List<FileModel> files = fileRepository.findAll();
+  public List<MongoFileModel> findAll() {
+    List<MongoFileModel> files = fileRepository.findAll();
     files.addAll(findInGridFs(new Query()));
     return files;
   }
 
   @Override
-  public List<FileModel> findByFieldsQuery(String name, String contentType, String extension) {
+  public List<MongoFileModel> findByFieldsQuery(String name, String contentType, String extension) {
     Query query = new Query();
     query.addCriteria(Criteria.where("filename").regex(name));
     query.addCriteria(Criteria.where("metadata._contentType").regex(contentType));
     query.addCriteria(Criteria.where("metadata.extension").regex(extension));
 
-    List<FileModel> files =
+    List<MongoFileModel> files =
         fileRepository.findByNameAndContentTypeAndExtensionQuery(name, contentType, extension);
     files.addAll(findInGridFs(query));
     return files;
   }
 
   @Override
-  public Optional<FileModel> findById(String id) {
+  public Optional findById(String id) {
     ObjectId objectId = new ObjectId(id);
-    Optional<FileModel> opt = fileFindBson.find(objectId);
+    Optional<MongoFileModel> opt = fileFindBson.find(objectId);
 
     if (!opt.isPresent()) {
       opt = fileFindGridFs.find(objectId);
@@ -139,7 +137,7 @@ public class MongoFileService implements FileService {
   @Override
   public FileDownloadWrap getDownloadWrap(String id) {
     GridFSFile file = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
-    Optional<FileModel> opt = findById(id);
+    Optional<MongoFileModel> opt = findById(id);
     String name = "unknown.file";
     Resource resource = new ByteArrayResource(new byte[0]);
 
