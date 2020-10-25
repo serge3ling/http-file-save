@@ -62,7 +62,7 @@ public class MongoFileService implements FileService {
     String retVal = null;
     try {
       if (file.getSize() < properties.getGridFsSizeStart()) {
-        MongoFileModel fileModel = new MongoFileModel(new ObjectId(), description, file);
+        MongoFileModel fileModel = new MongoFileModel(new ObjectId().toHexString(), description, file);
         fileRepository.insert(fileModel);
         retVal = fileModel.getId().toString();
       } else {
@@ -92,7 +92,7 @@ public class MongoFileService implements FileService {
     List<GridFSFile> files = new ArrayList<>();
     gridFsTemplate.find(query).into(files);
     return files.stream()
-        .map(item -> new MongoFileModel(item.getObjectId(), item))
+        .map(item -> new MongoFileModel(item.getObjectId().toHexString(), item))
         .collect(Collectors.toList());
   }
 

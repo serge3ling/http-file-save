@@ -17,6 +17,6 @@ public class FileFindGridFs {
 
   public Optional<MongoFileModel> find(ObjectId id) {
     GridFSFile file = gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
-    return Optional.ofNullable(new MongoFileModel(id, file));
+    return Optional.ofNullable(new MongoFileModel(id.toHexString(), file));
   }
 }

@@ -12,10 +12,10 @@ public class FileSaveBson {
     this.fileRepository = fileRepository;
   }
 
-  public ObjectId save(ObjectId id, String description, MultipartFile file) {
-    ObjectId retVal = null;
+  public String save(ObjectId id, String description, MultipartFile file) {
+    String retVal = null;
     try {
-      MongoFileModel fileModel = new MongoFileModel(id, description, file);
+      MongoFileModel fileModel = new MongoFileModel(id.toHexString(), description, file);
       fileRepository.save(fileModel);
       retVal = fileModel.getId();
     } catch (IOException e) {

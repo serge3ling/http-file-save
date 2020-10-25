@@ -15,9 +15,9 @@ import tk.d4097.httpfs.service.FileModel;
 
 @Document(collection = "file")
 public class MongoFileModel implements FileModel {
-  @JsonSerialize(using = ToStringSerializer.class)
+  //@JsonSerialize(using = ToStringSerializer.class)
   @Id
-  private ObjectId id;
+  private String id;
 
   private String name;
   private String contentType;
@@ -29,7 +29,7 @@ public class MongoFileModel implements FileModel {
   public MongoFileModel() {
   }
 
-  public MongoFileModel(ObjectId id, String description, MultipartFile file) throws IOException {
+  public MongoFileModel(String id, String description, MultipartFile file) throws IOException {
     this(
         id,
         file.getOriginalFilename(),
@@ -40,7 +40,7 @@ public class MongoFileModel implements FileModel {
         new Binary(BsonBinarySubType.BINARY, file.getBytes()));
   }
 
-  public MongoFileModel(ObjectId id, GridFSFile file) {
+  public MongoFileModel(String id, GridFSFile file) {
     this(
         id,
         file.getFilename(),
@@ -51,7 +51,7 @@ public class MongoFileModel implements FileModel {
         null);
   }
 
-  public MongoFileModel(ObjectId id, String name, String contentType, String extension,
+  public MongoFileModel(String id, String name, String contentType, String extension,
                         long size, String description, Binary content) {
     this.id = id;
     this.name = name;
@@ -86,7 +86,7 @@ public class MongoFileModel implements FileModel {
     return "[id: " + id + ", name: \"" + name + "\", description: \"" + description + "\"]";
   }
 
-  public ObjectId getId() {
+  public String getId() {
     return id;
   }
 
