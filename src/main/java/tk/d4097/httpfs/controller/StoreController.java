@@ -57,14 +57,14 @@ public class StoreController {
   @GetMapping(path = "/files/{id}",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<FileModel> findFileById(@PathVariable String id) {
+  public ResponseEntity<? extends FileModel> findFileById(@PathVariable String id) {
     return ResponseEntity.ok().body((FileModel) fileService.findById(id).orElse(null));
   }
 
   @GetMapping(path = "/files",
       produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<List> findFilesByQuery(
+  public ResponseEntity<List<? extends FileModel>> findFilesByQuery(
       @RequestParam(defaultValue = "") String name,
       @RequestParam(defaultValue = "") String contentType,
       @RequestParam(defaultValue = "") String extension) {

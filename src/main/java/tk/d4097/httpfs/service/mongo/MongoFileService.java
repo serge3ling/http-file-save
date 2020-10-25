@@ -117,7 +117,7 @@ public class MongoFileService implements FileService {
   }
 
   @Override
-  public Optional findById(String id) {
+  public Optional<MongoFileModel> findById(String id) {
     ObjectId objectId = new ObjectId(id);
     Optional<MongoFileModel> opt = fileFindBson.find(objectId);
 

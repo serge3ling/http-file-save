@@ -9,11 +9,11 @@ public interface FileService {
 
   String save(String id, String description, MultipartFile file);
 
-  List findAll();
+  List<? extends FileModel> findAll();
 
-  List findByFieldsQuery(String name, String contentType, String extension);
+  List<? extends FileModel> findByFieldsQuery(String name, String contentType, String extension);
 
-  Optional findById(String id);
+  Optional<? extends FileModel> findById(String id);
 
   void deleteById(String id);
 

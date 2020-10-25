@@ -76,6 +76,12 @@ public class MongoFileModel implements FileModel {
   }
 
   @Override
+  public boolean equals(Object object) {
+    MongoFileModel model = (MongoFileModel) object;
+    return model.getId().equals(this.getId());
+  }
+
+  @Override
   public String toString() {
     return "[id: " + id + ", name: \"" + name + "\", description: \"" + description + "\"]";
   }
